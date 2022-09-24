@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization.json
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+configMapGenerator:
+  - name: factorio-tg-bot
+    files:
+      - config/config.yaml
+images:
+  - name: tgbot
+    newName: ghcr.io/midymidy-mc/factorio-bot
+    newTag: v0.0.1
