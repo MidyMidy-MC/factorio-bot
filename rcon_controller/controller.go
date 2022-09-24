@@ -22,6 +22,10 @@ func (c *Controller) PostMessage(username, message string) error {
 	}
 	defer conn.Close()
 
+	if message == "" {
+		return nil
+	}
+
 	msg := &userChatMessage{
 		Messages: []msg{
 			{
