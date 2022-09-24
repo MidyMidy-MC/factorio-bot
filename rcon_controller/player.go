@@ -2,6 +2,10 @@ package rconcontroller
 
 import "fmt"
 
+type Players struct {
+	Players []*Player `json:"players"`
+}
+
 type Player struct {
 	Name              string `json:"name"`
 	Online            bool   `json:"connected"`

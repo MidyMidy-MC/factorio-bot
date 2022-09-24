@@ -66,21 +66,23 @@ func (c *Controller) GetPlayers(isOnline bool) ([]*Player, error) {
 		return nil, err
 	}
 
-	players := make([]*Player, 0)
+	players := &Players{
+		Players: make([]*Player, 0),
+	}
 	if err := json.Unmarshal([]byte(resp), &players); err != nil {
 		return nil, err
 	}
 
 	if isOnline {
 		playersOnline := make([]*Player, 0)
-		for _, player := range players {
+		for _, player := range players.Players {
 			if player.Online {
 				playersOnline = append(playersOnline, player)
 			}
 		}
 		return playersOnline, nil
 	}
-	return players, nil
+	return players.Players, nil
 }
 
 func (c *Controller) GetUpdate() (*Event, error) {
