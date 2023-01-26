@@ -123,6 +123,7 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 		log.Print("unhandled event:", ev)
 		return
 	}
+
 	reply, err := bot.Send(msg)
 	if err != nil {
 		log.Print(err)
@@ -133,7 +134,7 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 		msg := tgbotapi.PinChatMessageConfig{
 			ChatID:              id,
 			MessageID:           reply.MessageID,
-			DisableNotification: false,
+			DisableNotification: true,
 		}
 		if _, err := bot.Request(msg); err != nil {
 			log.Print(err)
