@@ -9,6 +9,7 @@ const (
 	EventPlayerKilled      EventType = "oops"
 	EventConsoleChat       EventType = "console-chat"
 	EventConsoleMe         EventType = "console-me"
+	EventConsolePin        EventType = "console-pin"
 	EventResourceDepleted  EventType = "resource-depleted"
 	EventResearchCancelled EventType = "research-cancelled"
 	EventResearchFinished  EventType = "research-finished"

@@ -107,9 +107,15 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessageResearchStart, ev.GetString("research_name")))
 	case rconcontroller.EventResearchFinished:
 		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessageResearchFinished, ev.GetString("research_name")))
+	case rconcontroller.EventConsolePin:
+		fallthrough
 	case rconcontroller.EventConsoleChat:
 		msg = tgbotapi.NewMessage(id,
 			fmt.Sprintf("<%s> %s", ev.GetString("player_name"), ev.GetString("message")),
+		)
+	case rconcontroller.EventConsoleMe:
+		msg = tgbotapi.NewMessage(id,
+			fmt.Sprintf("<%s> *%s", ev.GetString("player_name"), ev.GetString("message")),
 		)
 	case rconcontroller.EventEmpty:
 		return
@@ -117,7 +123,20 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 		log.Print("unhandled event:", ev)
 		return
 	}
-	if _, err := bot.Send(msg); err != nil {
+	reply, err := bot.Send(msg)
+	if err != nil {
 		log.Print(err)
+		return
+	}
+
+	if ev.EventType() == rconcontroller.EventConsolePin {
+		msg := tgbotapi.PinChatMessageConfig{
+			ChatID:              id,
+			MessageID:           reply.MessageID,
+			DisableNotification: false,
+		}
+		if _, err := bot.Request(msg); err != nil {
+			log.Print(err)
+		}
 	}
 }
