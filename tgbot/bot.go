@@ -111,11 +111,15 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 		fallthrough
 	case rconcontroller.EventConsoleChat:
 		msg = tgbotapi.NewMessage(id,
-			fmt.Sprintf("<%s> %s", ev.GetString("player_name"), ev.GetString("message")),
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf("<%s> %s", ev.GetString("player_name"), ev.GetString("message")),
+			),
 		)
 	case rconcontroller.EventConsoleMe:
 		msg = tgbotapi.NewMessage(id,
-			fmt.Sprintf("<%s> *%s", ev.GetString("player_name"), ev.GetString("message")),
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf("<%s> *%s", ev.GetString("player_name"), ev.GetString("message")),
+			),
 		)
 	case rconcontroller.EventEmpty:
 		return
@@ -123,6 +127,8 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 		log.Print("unhandled event:", ev)
 		return
 	}
+
+	msg.ParseMode = tgbotapi.ModeMarkdownV2
 
 	reply, err := bot.Send(msg)
 	if err != nil {
