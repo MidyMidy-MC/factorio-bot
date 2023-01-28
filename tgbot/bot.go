@@ -98,15 +98,35 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 	var msg tgbotapi.MessageConfig
 	switch ev.EventType() {
 	case rconcontroller.EventPlayerJoin:
-		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessagePlayerJoin, ev.GetString("player_name")))
+		msg = tgbotapi.NewMessage(id,
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf(MessagePlayerJoin, ev.GetString("player_name")),
+			),
+		)
 	case rconcontroller.EventPlayerLeft:
-		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessagePlayerLeft, ev.GetString("player_name")))
+		msg = tgbotapi.NewMessage(id,
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf(MessagePlayerLeft, ev.GetString("player_name")),
+			),
+		)
 	case rconcontroller.EventPlayerKilled:
-		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessagePlayerKilled, ev.GetString("player_name"), ev.GetString("sarcasm")))
+		msg = tgbotapi.NewMessage(id,
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf(MessagePlayerKilled, ev.GetString("player_name"), ev.GetString("sarcasm")),
+			),
+		)
 	case rconcontroller.EventResearchStarted:
-		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessageResearchStart, ev.GetString("research_name")))
+		msg = tgbotapi.NewMessage(id,
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf(MessageResearchStart, ev.GetString("research_name")),
+			),
+		)
 	case rconcontroller.EventResearchFinished:
-		msg = tgbotapi.NewMessage(id, fmt.Sprintf(MessageResearchFinished, ev.GetString("research_name")))
+		msg = tgbotapi.NewMessage(id,
+			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
+				fmt.Sprintf(MessageResearchFinished, ev.GetString("research_name")),
+			),
+		)
 	case rconcontroller.EventConsolePin:
 		fallthrough
 	case rconcontroller.EventConsoleChat:
@@ -129,7 +149,6 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 	}
 
 	msg.ParseMode = tgbotapi.ModeMarkdownV2
-
 	reply, err := bot.Send(msg)
 	if err != nil {
 		log.Print(err)
