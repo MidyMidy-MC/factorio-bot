@@ -11,6 +11,8 @@ import (
 )
 
 func Run(c *cli.Context) error {
+	readTranslation(c)
+
 	id := c.Int64("group-id")
 	bot, err := tgbotapi.NewBotAPI(c.String("token"))
 	if err != nil {
@@ -118,13 +120,17 @@ func onUpdate(bot *tgbotapi.BotAPI, rcon *rconcontroller.Controller, id int64) {
 	case rconcontroller.EventResearchStarted:
 		msg = tgbotapi.NewMessage(id,
 			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
-				fmt.Sprintf(MessageResearchStart, ev.GetString("research_name")),
+				fmt.Sprintf(MessageResearchStart, getTranslation(
+					ev.GetString("research_name"),
+				)),
 			),
 		)
 	case rconcontroller.EventResearchFinished:
 		msg = tgbotapi.NewMessage(id,
 			tgbotapi.EscapeText(tgbotapi.ModeMarkdownV2,
-				fmt.Sprintf(MessageResearchFinished, ev.GetString("research_name")),
+				fmt.Sprintf(MessageResearchFinished, getTranslation(
+					ev.GetString("research_name"),
+				)),
 			),
 		)
 	case rconcontroller.EventConsolePin:

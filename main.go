@@ -49,6 +49,11 @@ func main() {
 			EnvVars:  []string{"RCON_PASSWORD", "PASSWORD"},
 			Required: true,
 		}),
+		altsrc.NewStringFlag(&cli.StringFlag{
+			Name:  "tech-translation-file",
+			Usage: "key-value file for tech translation",
+			Value: "tech-translation.yaml",
+		}),
 	}
 
 	app := &cli.App{
