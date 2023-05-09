@@ -14,7 +14,10 @@ func Run(c *cli.Context) error {
 	readTranslation(c)
 
 	id := c.Int64("group-id")
-	bot, err := tgbotapi.NewBotAPI(c.String("token"))
+	bot, err := tgbotapi.NewBotAPIWithAPIEndpoint(
+		c.String("token"),
+		c.String("api-url"),
+	)
 	if err != nil {
 		return err
 	}

@@ -54,6 +54,12 @@ func main() {
 			Usage: "key-value file for tech translation",
 			Value: "tech-translation.yaml",
 		}),
+		altsrc.NewStringFlag(&cli.StringFlag{
+			Name: "api-url",
+			Usage: "Telegram bot API URL",
+			Value: "https://api.telegram.org",
+			EnvVars: []string{"TG_API_URL"},
+		}),
 	}
 
 	app := &cli.App{
