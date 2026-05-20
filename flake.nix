@@ -48,10 +48,13 @@
           with pkgs;
           mkShell {
             buildInputs = [
+              tokei
               go
             ];
           };
         devShells.default = devShell;
+
+        GOPROXY = "https://goproxy.cn,direct";
       }
     );
 }
